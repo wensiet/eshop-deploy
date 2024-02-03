@@ -7,15 +7,19 @@ echo "Storages deployed successfully!"
 
 echo "Creating databases ..."
 sleep 5
+
 kubectl apply -f database-create-job.yaml
 
 echo "Databases created successfully!"
 
-echo "Deploying backend ..."
+echo "Preparing backend deployment ..."
 helm template products products
 helm templtae orders orders
 helm template auth auth
 helm template gateway gateway
+
+echo "Backend deployment is ready!"
+slee 2
 
 helm install products products
 helm install orders orders
