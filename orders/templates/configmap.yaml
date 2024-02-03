@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: eshop-orders-config
+data:
+  config_k8s.yaml: |-
+    env: local
+    grpc:
+      port: 9092
+    database:
+      host: eshop-pg-service
+      port: 5432
+      user: user
+      pass: pass
+      name: ordersservice
+    loki:
+      host: 213.226.125.222
+      port: 3100
+    services:
+      products:
+        host: eshop-products-service
+        port: 9090
+      authorization:
+        host: eshop-auth-service
+        port: 9091

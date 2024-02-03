@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: eshop-storage
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: eshop-storage
+  template:
+    metadata:
+      labels:
+        app: eshop-storage
+    spec:
+      containers:
+        - name: eshop-pg
+          image: postgres:latest
+          env:
+            - name: POSTGRES_USER
+              value: user
+            - name: POSTGRES_PASSWORD
+              value: pass
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - name: eshop-products-pg
+              mountPath: /var/lib/postgresql/data
+        - name: eshop-redis
+          image: redis:latest
+          command: [ "redis-server", "--requirepass", "pass" ]
+          ports:
+            - containerPort: 6379
+          volumeMounts:
+            - name: eshop-products-redis
+              mountPath: /data
+        - name: eshop-minio
+          image: quay.io/minio/minio:latest
+          command:
+            - /bin/bash
+            - -c
+          args:
+            - minio server /data --console-address :9001
+          env:
+            - name: MINIO_ROOT_USER
+              value: username
+            - name: MINIO_ROOT_PASSWORD
+              value: password
+          volumeMounts:
+            - name: eshop-products-minio
+              mountPath: /data
+          ports:
+            - containerPort: 9000
+            - containerPort: 9001
+      volumes:
+        - name: eshop-products-pg
+          persistentVolumeClaim:
+            claimName: eshop-pg-pvc
+        - name: eshop-products-redis
+          persistentVolumeClaim:
+            claimName: eshop-redis-pvc
+        - name: eshop-products-minio
+          persistentVolumeClaim:
+            claimName: eshop-minio-pvc

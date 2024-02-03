@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: eshop-gateway-service
+spec:
+  selector:
+    app: gateway-ms
+  ports:
+    - protocol: TCP
+      port: 8000
+      targetPort: 8000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: eshop-nginx-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: nginx-gateway
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80

@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: orders-ms
+spec:
+  selector:
+    matchLabels:
+      app: orders-ms
+  template:
+    metadata:
+      labels:
+        app: orders-ms
+    spec:
+      containers:
+        - name: orders-ms
+          image: registry.gitlab.com/e-com-shop/backend/eshop-orders-ms:latest
+          ports:
+            - containerPort: 9092
+          volumeMounts:
+            - name: config-volume
+              mountPath: /app/config
+      volumes:
+        - name: config-volume
+          configMap:
+            name: eshop-orders-config
+            items:
+              - key: config_k8s.yaml
+                path: config_docker.yaml
+      imagePullSecrets:
+        - name: gitlab

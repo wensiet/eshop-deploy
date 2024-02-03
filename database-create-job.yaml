@@ -1,0 +1,30 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: eshop-init-db
+spec:
+  template:
+    metadata:
+      name: eshop-init-db
+    spec:
+      containers:
+        - name: init-db-products
+          image: postgres:latest
+          env:
+            - name: PGPASSWORD
+              value: pass
+          command: [ "psql", "-h", "eshop-pg-service", "-U", "user", "-d", "postgres", "-c", "CREATE DATABASE productsservice;" ]
+        - name: init-db-auth
+          image: postgres:latest
+          env:
+            - name: PGPASSWORD
+              value: pass
+          command: [ "psql", "-h", "eshop-pg-service", "-U", "user", "-d", "postgres", "-c", "CREATE DATABASE authservice;" ]
+        - name: init-db-orders
+          image: postgres:latest
+          env:
+            - name: PGPASSWORD
+              value: pass
+          command: [ "psql", "-h", "eshop-pg-service", "-U", "user", "-d", "postgres", "-c", "CREATE DATABASE ordersservice;" ]
+      restartPolicy: Never
+  backoffLimit: 4

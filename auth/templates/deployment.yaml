@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-ms
+spec:
+  selector:
+    matchLabels:
+      app: auth-ms
+  template:
+    metadata:
+      labels:
+        app: auth-ms
+    spec:
+      containers:
+        - name: auth-ms
+          image: registry.gitlab.com/e-com-shop/backend/eshop-authorization-ms:latest
+          ports:
+            - containerPort: 9091
+          volumeMounts:
+            - name: config-volume
+              mountPath: /app/config
+      volumes:
+        - name: config-volume
+          configMap:
+            name: eshop-auth-config
+            items:
+              - key: config_k8s.yaml
+                path: config_docker.yaml
+      imagePullSecrets:
+        - name: gitlab
