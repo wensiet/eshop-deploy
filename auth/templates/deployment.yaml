@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
         - name: auth-ms
-          image: registry.gitlab.com/e-com-shop/backend/eshop-authorization-ms:latest
+          image: registry.gitlab.com/e-com-shop/backend/eshop-authorization-ms:dev
           ports:
             - containerPort: 9091
           volumeMounts:

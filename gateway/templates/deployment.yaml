@@ -14,9 +14,19 @@ spec:
     spec:
       containers:
         - name: gateway-ms
-          image: registry.gitlab.com/e-com-shop/backend/eshop-gateway-ms:latest
+          image: registry.gitlab.com/e-com-shop/backend/eshop-gateway-ms:dev
           ports:
             - containerPort: 8000
+          volumeMounts:
+            - name: config-volume
+              mountPath: /app/config
+      volumes:
+        - name: config-volume
+          configMap:
+            name: eshop-gateway-config
+            items:
+              - key: config.yaml
+                path: config_docker.yaml
       imagePullSecrets:
         - name: gitlab
 ---

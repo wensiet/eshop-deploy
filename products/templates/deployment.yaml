@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
         - name: products-ms
-          image: registry.gitlab.com/e-com-shop/backend/eshop-products-ms:latest
+          image: registry.gitlab.com/e-com-shop/backend/eshop-products-ms:dev
           volumeMounts:
             - name: config-volume
               mountPath: /app/config

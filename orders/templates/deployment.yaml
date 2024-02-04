@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
         - name: orders-ms
-          image: registry.gitlab.com/e-com-shop/backend/eshop-orders-ms:latest
+          image: registry.gitlab.com/e-com-shop/backend/eshop-orders-ms:dev
           ports:
             - containerPort: 9092
           volumeMounts:

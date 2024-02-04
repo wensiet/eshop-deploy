@@ -1,3 +1,10 @@
+echo "Do you want to start minikube? (y/n)"
+read -r answer
+
+if [ "$answer" == "y" ]; then
+    minikube start --memory 8192 --cpus 4
+fi
+
 
 echo "Deploying storages ..."
 helm template storage storage

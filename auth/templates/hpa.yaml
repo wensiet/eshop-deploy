@@ -1,7 +1,7 @@
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: products-ms-autoscaler
+  name: auth-ms-autoscaler
 spec:
   maxReplicas: 3
   metrics:
@@ -15,5 +15,4 @@ spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: products-ms
-
+    name: auth-ms
