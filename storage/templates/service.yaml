@@ -39,6 +39,7 @@ kind: Service
 metadata:
   name: eshop-minio-console
 spec:
+  type: LoadBalancer
   selector:
     app: eshop-storage
   ports:
