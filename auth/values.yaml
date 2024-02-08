@@ -7,6 +7,8 @@ app:
   service:
     name: eshop-auth-service
 env: local
+grpc:
+  port: 9091
 port: ":8080"
 database:
   host: eshop-pg-service
