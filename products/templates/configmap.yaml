@@ -1,33 +1,33 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: eshop-products-config
+  name: {{ .Values.app.config.map }}
 data:
-  config_k8s.yaml: |-
-    env: local
+  {{ .Values.app.config.file }}: |-
+    env: {{ .Values.env }}
     grpc:
-      port: 9090
+      port: {{ .Values.grpc.port }}
     database:
-      host: eshop-pg-service
-      port: 5432
-      user: user
-      pass: pass
-      name: productsservice
+      host: {{ .Values.database.host }}
+      port: {{ .Values.database.port }}
+      user: {{ .Values.database.user }}
+      pass: {{ .Values.database.pass }}
+      name: {{ .Values.database.name }}
     redis:
-      host: eshop-redis-service # DYNAMIC FIELD, now is: eshop-redis-service
-      port: 6379
-      pass: pass
-      db: 0
+      host: {{ .Values.redis.host }}
+      port: {{ .Values.redis.port }}
+      pass: {{ .Values.redis.pass }}
+      db: {{ .Values.redis.db }}
     loki:
-      host: 213.226.125.222 # DYNAMIC FIELD, now is: 213.226.125.222
-      port: 3100
+      host: {{ .Values.loki.host }}
+      port: {{ .Values.loki.port }}
     minio:
-      host: eshop-minio-service # DYNAMIC FIELD, now is: eshop-minio-service
-      port: 9000
-      access_key: username
-      secret_key: password
-      use_ssl: false
-      bucket: products
+      host: {{ .Values.minio.host }}
+      port: {{ .Values.minio.port }}
+      access_key: {{ .Values.minio.access_key }}
+      secret_key: {{ .Values.minio.secret_key }}
+      use_ssl: {{ .Values.minio.use_ssl }}
+      bucket: {{ .Values.minio.bucket }}
     jwt:
-      secret: secret
-      ttl: 3600
+      secret: {{ .Values.jwt.secret }}
+      ttl: {{ .Values.jwt.ttl }}

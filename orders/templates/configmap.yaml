@@ -1,25 +1,25 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: eshop-orders-config
+  name: {{ .Values.app.config.map }}
 data:
-  config_k8s.yaml: |-
-    env: local
+  {{ .Values.app.config.file }}: |-
+    env: {{ .Values.env }}
     grpc:
-      port: 9092
+      port: {{ .Values.grpc.port }}
     database:
-      host: eshop-pg-service
-      port: 5432
-      user: user
-      pass: pass
-      name: ordersservice
+      host: {{ .Values.database.host }}
+      port: {{ .Values.database.port }}
+      user: {{ .Values.database.user }}
+      pass: {{ .Values.database.pass }}
+      name: {{ .Values.database.name }}
     loki:
-      host: 213.226.125.222
-      port: 3100
+      host: {{ .Values.loki.host }}
+      port: {{ .Values.loki.port }}
     services:
       products:
-        host: eshop-products-service
-        port: 9090
+        host: {{ .Values.services.products.host }}
+        port: {{ .Values.services.products.port }}
       authorization:
-        host: eshop-auth-service
-        port: 9091
+        host: {{ .Values.services.authorization.host }}
+        port: {{ .Values.services.authorization.port }}

@@ -1,2 +1,45 @@
-gitlab:
-  secret: "specify your gitlab secret"
+app:
+  name: eshop-storage
+  postgres:
+    image: cr.yandex/crpmseiiro1297gqad5d/postgres:alpine
+    service: eshop-pg-service
+    pod: eshop-pg
+    user: user
+    pass: pass
+    name: productsservice
+    port: 5432
+  redis:
+    image: cr.yandex/crpmseiiro1297gqad5d/redis:alpine
+    service: eshop-redis-service
+    pod: eshop-redis
+    port: 6379
+    pass: pass
+    db: 0
+  minio:
+    image: cr.yandex/crpmseiiro1297gqad5d/minio:latest
+    service: eshop-minio-service
+    pod: eshop-minio
+    port: 9000
+    access_key: username
+    secret_key: password
+    use_ssl: false
+    bucket: products
+volumes:
+  sc:
+    name: eshop-storage-class
+  pv:
+    name: eshop-pv
+    size: 5Gi
+  pg:
+    name: eshop-products-pg
+    pvc: eshop-pg-pvc
+    size: 1Gi
+  redis:
+    name: eshop-products-redis
+    pvc: eshop-redis-pvc
+    size: 1Gi
+  minio:
+    name: eshop-products-minio
+    pvc: eshop-minio-pvc
+    size: 1Gi
+secret: yandex-cloud-registry-secret

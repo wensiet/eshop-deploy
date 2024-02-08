@@ -9,22 +9,22 @@ spec:
     spec:
       containers:
         - name: init-db-products
-          image: postgres:latest
+          image: {{ .Values.app.postgres.image }}
           env:
             - name: PGPASSWORD
-              value: pass
+              value: {{ .Values.app.postgres.pass }}
           command: [ "psql", "-h", "eshop-pg-service", "-U", "user", "-d", "postgres", "-c", "CREATE DATABASE productsservice;" ]
         - name: init-db-auth
-          image: postgres:latest
+          image: {{ .Values.app.postgres.image }}
           env:
             - name: PGPASSWORD
-              value: pass
+              value: {{ .Values.app.postgres.pass }}
           command: [ "psql", "-h", "eshop-pg-service", "-U", "user", "-d", "postgres", "-c", "CREATE DATABASE authservice;" ]
         - name: init-db-orders
-          image: postgres:latest
+          image: {{ .Values.app.postgres.image }}
           env:
             - name: PGPASSWORD
-              value: pass
+              value: {{ .Values.app.postgres.pass }}
           command: [ "psql", "-h", "eshop-pg-service", "-U", "user", "-d", "postgres", "-c", "CREATE DATABASE ordersservice;" ]
       restartPolicy: Never
   backoffLimit: 4

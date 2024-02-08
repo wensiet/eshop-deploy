@@ -1,20 +1,20 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: eshop-auth-config
+  name: {{ .Values.app.config.map }}
 data:
-  config_k8s.yaml: |-
-    env: local
-    port: ":8080"
+  {{ .Values.app.config.file }}: |-
+    env: {{ .Values.env }}
+    port: {{ .Values.port }}
     database:
-      host: eshop-pg-service
-      port: 5432
-      user: user
-      pass: pass
-      name: authservice
+      host: {{ .Values.database.host }}
+      port: {{ .Values.database.port }}
+      user: {{ .Values.database.user }}
+      pass: {{ .Values.database.pass }}
+      name: {{ .Values.database.name }}
     jwt:
-      secret: secret
-      ttl: 3600
+      secret: {{ .Values.jwt.secret }}
+      ttl: {{ .Values.jwt.ttl }}
     loki:
-      host: 213.226.125.222
-      port: 3100
+      host: {{ .Values.loki.host }}
+      port: {{ .Values.loki.port }}

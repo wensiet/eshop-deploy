@@ -1,30 +1,30 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: products-ms
+  name: {{ .Values.app.name }}
 spec:
   selector:
     matchLabels:
-      app: products-ms
+      app: {{ .Values.app.name }}
   template:
     metadata:
       labels:
-        app: products-ms
+        app: {{ .Values.app.name }}
     spec:
       containers:
-        - name: products-ms
-          image: registry.gitlab.com/e-com-shop/backend/eshop-products-ms:dev
+        - name: {{ .Values.app.name }}
+          image: {{ .Values.app.image }}
+          ports:
+            - containerPort: {{ .Values.grpc.port }}
           volumeMounts:
             - name: config-volume
               mountPath: /app/config
-          ports:
-            - containerPort: 9090
       volumes:
         - name: config-volume
           configMap:
-            name: eshop-products-config
+            name: {{ .Values.app.config.map }}
             items:
-              - key: config_k8s.yaml
-                path: config_docker.yaml
+              - key: {{ .Values.app.config.file }}
+                path: {{ .Values.app.config.file }}
       imagePullSecrets:
         - name: gitlab

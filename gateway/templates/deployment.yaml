@@ -1,54 +1,54 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: gateway-ms
+  name: {{ .Values.app.gateway.name}}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: gateway-ms
+      app: {{ .Values.app.gateway.name}}
   template:
     metadata:
       labels:
-        app: gateway-ms
+        app: {{ .Values.app.gateway.name}}
     spec:
       containers:
-        - name: gateway-ms
-          image: registry.gitlab.com/e-com-shop/backend/eshop-gateway-ms:dev
+        - name: {{ .Values.app.gateway.name }}
+          image: {{ .Values.app.gateway.image }}
           ports:
-            - containerPort: 8000
+            - containerPort: {{ .Values.port }}
           volumeMounts:
             - name: config-volume
               mountPath: /app/config
       volumes:
         - name: config-volume
           configMap:
-            name: eshop-gateway-config
+            name: {{ .Values.app.config.name }}
             items:
-              - key: config.yaml
-                path: config_docker.yaml
+              - key: {{ .Values.app.config.file }}
+                path: {{ .Values.app.config.file }}
       imagePullSecrets:
         - name: gitlab
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nginx-gateway
+  name: {{ .Values.app.nginx.name }}
   labels:
-    app: nginx-gateway
+    app: {{ .Values.app.nginx.name }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: nginx-gateway
+      app: {{ .Values.app.nginx.name }}
   template:
     metadata:
       labels:
-        app: nginx-gateway
+        app: {{ .Values.app.nginx.name }}
     spec:
       containers:
-        - name: nginx-gateway
-          image: nginx:latest
+        - name: {{ .Values.app.nginx.name }}
+          image: {{ .Values.app.nginx.image }}
           ports:
             - containerPort: 80
           volumeMounts:
@@ -61,3 +61,5 @@ spec:
             items:
               - key: nginx.conf
                 path: nginx.conf
+      imagePullSecrets:
+        - name: yandex-cloud-registry

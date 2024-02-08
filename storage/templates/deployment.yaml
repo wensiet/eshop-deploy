@@ -1,40 +1,42 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: eshop-storage
+  name: {{ .Values.app.name }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: eshop-storage
+      app: {{ .Values.app.name }}
   template:
     metadata:
       labels:
-        app: eshop-storage
+        app: {{ .Values.app.name }}
     spec:
       containers:
-        - name: eshop-pg
-          image: postgres:latest
+        - name: {{ .Values.app.postgres.pod }}
+          image: {{ .Values.app.postgres.image }}
           env:
             - name: POSTGRES_USER
-              value: user
+              value: {{ .Values.app.postgres.user }}
             - name: POSTGRES_PASSWORD
-              value: pass
+              value: {{ .Values.app.postgres.pass }}
           ports:
-            - containerPort: 5432
+            - containerPort: {{ .Values.app.postgres.port}}
           volumeMounts:
-            - name: eshop-products-pg
+            - name: {{ .Values.volumes.pg.name }}
               mountPath: /var/lib/postgresql/data
-        - name: eshop-redis
-          image: redis:latest
-          command: [ "redis-server", "--requirepass", "pass" ]
+
+        - name: {{ .Values.app.redis.pod }}
+          image: {{ .Values.app.redis.image }}
+          command: [ "redis-server", "--requirepass", "{{.Values.app.redis.pass}}" ]
           ports:
-            - containerPort: 6379
+            - containerPort: {{ .Values.app.redis.port }}
           volumeMounts:
-            - name: eshop-products-redis
+            - name: {{ .Values.volumes.redis.name }}
               mountPath: /data
-        - name: eshop-minio
-          image: quay.io/minio/minio:latest
+
+        - name: {{ .Values.app.minio.pod }}
+          image: {{ .Values.app.minio.image }}
           command:
             - /bin/bash
             - -c
@@ -42,22 +44,26 @@ spec:
             - minio server /data --console-address :9001
           env:
             - name: MINIO_ROOT_USER
-              value: username
+              value: {{ .Values.app.minio.access_key }}
             - name: MINIO_ROOT_PASSWORD
-              value: password
+              value: {{ .Values.app.minio.secret_key }}
           volumeMounts:
-            - name: eshop-products-minio
+            - name: {{ .Values.volumes.minio.name }}
               mountPath: /data
           ports:
-            - containerPort: 9000
+            - containerPort: {{ .Values.app.minio.port }}
             - containerPort: 9001
+
       volumes:
-        - name: eshop-products-pg
+        - name: {{ .Values.volumes.pg.name }}
           persistentVolumeClaim:
-            claimName: eshop-pg-pvc
-        - name: eshop-products-redis
+            claimName: {{ .Values.volumes.pg.pvc }}
+        - name: {{ .Values.volumes.redis.name }}
           persistentVolumeClaim:
-            claimName: eshop-redis-pvc
-        - name: eshop-products-minio
+            claimName: {{ .Values.volumes.redis.pvc }}
+        - name: {{ .Values.volumes.minio.name }}
           persistentVolumeClaim:
-            claimName: eshop-minio-pvc
+            claimName: {{ .Values.volumes.minio.pvc }}
+
+      imagePullSecrets:
+        - name: yandex-cloud-registry

@@ -55,26 +55,26 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: eshop-gateway-config
+  name: {{ .Values.app.config.name }}
 data:
-  config.yaml: |-
-    env: local
-    port: 8000
-    domain: http://localhost/media
-    path: "/api/v1"
-    sentry: https://667b4cfbf3b29df190748ccac1ee04d8@o4506655030378496.ingest.sentry.io/4506655032147968
+  {{ .Values.app.config.file }}: |-
+    env: {{ .Values.env }}
+    port: {{ .Values.port }}
+    domain: {{ .Values.domain }}
+    path: {{ .Values.path }}
+    sentry: {{ .Values.sentry }}
     products:
-      host: eshop-products-service
-      port: 9090
+      host: {{ .Values.products.host }}
+      port: {{ .Values.products.port }}
     authorization:
-      host: eshop-auth-service
-      port: 9091
+      host: {{ .Values.authorization.host }}
+      port: {{ .Values.authorization.port }}
     loki:
-      host: 213.226.125.222
-      port: 3100
+      host: {{ .Values.loki.host }}
+      port: {{ .Values.loki.port }}
     redis:
-      host: eshop-redis-service
-      port: 6379
-      db: 2
-      password: pass
+      host: {{ .Values.redis.host }}
+      port: {{ .Values.redis.port }}
+      db: {{ .Values.redis.db }}
+      password: {{ .Values.redis.password }}
 
