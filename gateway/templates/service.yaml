@@ -21,7 +21,7 @@ spec:
     - host: {{ .Values.app.nginx.service }}.dev
       http:
         paths:
-          - path: /
+          - path: /api/v1/
             pathType: Prefix
             backend:
               service:
