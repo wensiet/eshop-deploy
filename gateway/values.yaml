@@ -1,4 +1,5 @@
 app:
+  node_port: 32004
   gateway:
     image: registry.gitlab.com/e-com-shop/backend/eshop-gateway-ms:dev
     name: gateway-ms
