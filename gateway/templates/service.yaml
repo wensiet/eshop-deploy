@@ -3,6 +3,7 @@ kind: Service
 metadata:
   name: {{ .Values.app.gateway.service }}
 spec:
+  type: NodePort
   selector:
     app: {{ .Values.app.gateway.name }}
   ports:
