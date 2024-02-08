@@ -10,6 +10,9 @@ app:
   config:
     name: eshop-gateway-config
     file: config_docker.yaml
+  media:
+    service: eshop-minio-service
+    port: 9000
 env: local
 port: 8000
 domain: http://localhost/media

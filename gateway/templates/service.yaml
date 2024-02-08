@@ -28,3 +28,10 @@ spec:
                 name: {{ .Values.app.gateway.service }}
                 port:
                   number: {{ .Values.port }}
+          - path: /media/
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ .Values.app.media.service }}
+                port:
+                  number: {{ .Values.app.media.port }}
