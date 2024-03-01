@@ -1,0 +1,7 @@
+---
+- name: Echo "Hello, world!"
+  hosts: servers
+  tasks:
+    - name: Echo "Hello, world!"
+      debug:
+        msg: "Hello, world!"

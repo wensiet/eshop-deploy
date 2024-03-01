@@ -1,0 +1,12 @@
+---
+- name: Create gitlab runner
+  hosts: servers
+  remote_user: root
+  vars_files:
+    - vars/gitlab_runner.yaml
+  tasks:
+    - name: Create gitlab runner
+      command: |
+        gitlab-runner register \
+          --non-interactive \
+          --url "{{ gitlab.host }}" \
