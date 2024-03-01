@@ -1,3 +1,2 @@
 [servers]
-worker1 ansible_host=217.25.94.56 ansible_user=root
-worker2 ansible_host=217.25.94.53 ansible_user=root
+vm ansible_host=217.25.92.246 ansible_user=root
